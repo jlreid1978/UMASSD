@@ -1,4 +1,4 @@
-//Jesse Reid CIS-115 lab 2
+//Jesse Reid CIS-115 lab 3
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
