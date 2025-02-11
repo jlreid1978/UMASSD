@@ -16,22 +16,13 @@
 // like * that number of times, as shown below
 
 
-int i;           // Loop counter iterates numRolls times
-int d;
-int p;
-int numRolls;    // User defined number of rolls
-int die1;        // Dice values
-int die2;        // Dice values
-int rollTotal;   // Sum of dice values
-int dieSide[12];
-int options;
 
 
 // Print statistics on dice rolls
 void PrintStats(dieSide, options){
     printf("\n\nDice roll statistics: \n");
-    for (p = 1; p <= options; ++p){
-        printf("%ds: %d\n",p, dieSide[p]);
+    for (int i = 1; i <= options; ++i){
+        printf("%ds: %d\n",i, dieSide[i]);
     }
     printf("\n");
 
@@ -39,8 +30,13 @@ void PrintStats(dieSide, options){
 
 
 int main(void){
-    int dieSide[12] = {0}; // Array of two six sided dice
-    options = sizeof(dieSide) / sizeof(dieSide[0]);
+    int numRolls;    // User defined number of rolls
+    int die1;        // Dice values
+    int die2;        // Dice values
+    int rollTotal;   // Sum of dice values
+    int dieSide[11] = {0}; // Array of two six sided dice
+    int options = sizeof(dieSide) / sizeof(dieSide[0]);
+    
 
     printf("Enter number of rolls: \n");
     scanf("%d", &numRolls);
@@ -49,13 +45,13 @@ int main(void){
         srand(time(0));
         
         // Roll dice numRoll times
-        for (i = 1; i <= numRolls; ++i) {
+        for (int i = 1; i <= numRolls; ++i) {
             die1 = rand() % 6 + 1;
             die2 = rand() % 6 + 1;
             rollTotal = die1 + die2;
             
-            for (d = 0; d < options; ++d){
-                if (rollTotal == i){
+            for (int d = 0; d < options; ++d){
+                if (rollTotal == d){
                     dieSide[d] = dieSide[d] + 1;
                 }
             }
