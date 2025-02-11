@@ -19,28 +19,38 @@
 
 
 // Print statistics on dice rolls
-void PrintStats(dieSide, options){
-    printf("\n\nDice roll statistics: \n");
-    for (int i = 1; i <= options; ++i){
-        printf("%ds: %d\n",i, dieSide[i]);
+void PrintStats(int dieSide[], int options){
+    printf("\n\nDice roll statistics:\n");
+    for (int i = 0; i < options; ++i) {
+        printf("%d's: %d\n", i + 2, dieSide[i]);
     }
     printf("\n");
-
 }
 
 
+// Print histogram on dice rolls
+void PrintHistogram(int dieSide[], int options){
+    printf("\nHistogram for roll statistics:\n");
+    for (int i = 0; i < options; ++i) {
+        char stats = ("#" * dieSide[i]);
+        printf("%d's: %d\n", i + 2, stats);
+    }
+}
+
+// Main function for dice rolling
 int main(void){
     int numRolls;    // User defined number of rolls
-    int die1;        // Dice values
-    int die2;        // Dice values
+    int die1;        // Die 1 values
+    int die2;        // Die 2 values
     int rollTotal;   // Sum of dice values
     int dieSide[11] = {0}; // Array of two six sided dice
-    int options = sizeof(dieSide) / sizeof(dieSide[0]);
+    int options = sizeof(dieSide) / sizeof(dieSide[0]); // calculate the size of the array
     
-
+    // Initially ask user how many times to roll the dice
     printf("Enter number of rolls: \n");
     scanf("%d", &numRolls);
 
+    // Continue rolling until user selects 0
     while (numRolls > 0) {
         srand(time(0));
         
@@ -49,21 +59,25 @@ int main(void){
             die1 = rand() % 6 + 1;
             die2 = rand() % 6 + 1;
             rollTotal = die1 + die2;
-            
-            for (int d = 0; d < options; ++d){
-                if (rollTotal == d){
+            // Loop though array of numbers and set value to corresponding position offset by 2 (2-12)
+            for (int d = 0; d <= options; ++d){
+                if (rollTotal == d + 2){
                     dieSide[d] = dieSide[d] + 1;
                 }
             }
 
-            printf("\nRoll %d is %d (%d+%d)", i + 1, rollTotal, die1, die2);
+            printf("\nRoll %d is %d (%d+%d)", i, rollTotal, die1, die2);
         }
-        
-        PrintStats(dieSide, options);        
+    
 
-        printf("Enter number of rolls (0 to stop): \n");
+        // Ask user if they wish to roll the dice again
+        printf("\nEnter number of rolls (0 to stop): \n");
         scanf("%d", &numRolls);
     }
+
+    // Call function to print stats based on calculations made above
+    PrintStats(dieSide, options); 
+    // Call functiont to print histogram based on calculations made above
     
     return 0;
 }
