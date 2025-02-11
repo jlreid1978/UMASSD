@@ -1,4 +1,4 @@
-//Jesse Reid CIS-115 lab 5
+//Jesse Reid CIS-115 lab 6
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,8 +16,6 @@
 // like * that number of times, as shown below
 
 
-
-
 // Print statistics on dice rolls
 void PrintStats(int dieSide[], int options){
     printf("\n\nDice roll statistics:\n");
@@ -32,9 +30,18 @@ void PrintStats(int dieSide[], int options){
 void PrintHistogram(int dieSide[], int options){
     printf("\nHistogram for roll statistics:\n");
     for (int i = 0; i < options; ++i) {
-        char stats = ("#" * dieSide[i]);
-        printf("%d's: %d\n", i + 2, stats);
+        printf("%d's: ", i + 2);
+        // Alligns the histogram 
+        if (i + 2 < 10){
+            printf(" ");
+        }
+        // Calculates number of "#" needed for each number
+        for (int h = 0; h < dieSide[i]; ++h) {
+            printf("#");
+        }
+        printf("\n");
     }
+    printf("\n");
 }
 
 // Main function for dice rolling
@@ -49,6 +56,9 @@ int main(void){
     // Initially ask user how many times to roll the dice
     printf("Enter number of rolls: \n");
     scanf("%d", &numRolls);
+
+    //Consume the leftover newline character to allow for a pause before exiting at the end of the script
+    getchar();
 
     // Continue rolling until user selects 0
     while (numRolls > 0) {
@@ -71,16 +81,20 @@ int main(void){
     
 
         // Ask user if they wish to roll the dice again
-        printf("\nEnter number of rolls (0 to stop): \n");
+        printf("\n\nEnter number of rolls (0 to stop): \n");
         scanf("%d", &numRolls);
+
+        //Consume the leftover newline character to allow for a pause before exiting at the end of the script
+        getchar();
     }
 
     // Call function to print stats based on calculations made above
     PrintStats(dieSide, options); 
     // Call functiont to print histogram based on calculations made above
-    
+    PrintHistogram(dieSide, options);
+
+    //Pause before exiting the program
+    getchar();
+
     return 0;
 }
-
-
-
