@@ -19,6 +19,7 @@
 // Print statistics on dice rolls
 void PrintStats(int dieSide[], int options){
     printf("\n\nDice roll statistics:\n");
+    // Itirate through the array and print the saved statistics
     for (int i = 0; i < options; ++i) {
         printf("%d's: %d\n", i + 2, dieSide[i]);
     }
@@ -29,6 +30,7 @@ void PrintStats(int dieSide[], int options){
 // Print histogram on dice rolls
 void PrintHistogram(int dieSide[], int options){
     printf("\nHistogram for roll statistics:\n");
+    // Itirate through the array and print a histogram
     for (int i = 0; i < options; ++i) {
         printf("%d's: ", i + 2);
         // Alligns the histogram 
@@ -75,7 +77,7 @@ int main(void){
                     dieSide[d] = dieSide[d] + 1;
                 }
             }
-
+            // Print roll info
             printf("\nRoll %d is %d (%d+%d)", i, rollTotal, die1, die2);
         }
     
