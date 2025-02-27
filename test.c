@@ -1,58 +1,76 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
+typedef struct IntNode_struct {
+    int dataVal;
+    struct IntNode_struct* nextNodePtr;
+} IntNode;
 
-
-void Explore(int* allVals, int* pickedVals, bool* inUse, int totalPicked, int arraySize){
-    int i;
-
-    // Base case: All values are picked
-    if (totalPicked == arraySize) {
-        for (i = 0; i < totalPicked; ++i){
-            printf("%d ", pickedVals[i]);
-        }
-        printf("\n");
-    }
-    // Recursive case
-    else {
-        if (!inUse[i]) {
-            inUse[i]  = true;     
-               
-        for (i = 0; i < arraySize; ++i){
-            pickedVals[totalPicked] = allVals[i];
-            Explore(allVals, pickedVals, inUse, totalPicked + 1, arraySize);
-            inUse = false;
-        }
-    }
-    }
+// Constructor
+void IntNode_Create(IntNode* thisNode, int dataInit, IntNode* nextLoc) {
+    thisNode->dataVal = dataInit;
+    thisNode->nextNodePtr = nextLoc;
 }
 
-int main(void){
-    int arraySize;
-    int* valsToPick = NULL;
-    int* picks = NULL;
-    bool* inUse = NULL;
-    int i;
+/* Insert newNode after node.
+ Before: thisNode -- next
+ After: thisNode -- newNode -- next
+*/
+void IntNode_InsertAfter(IntNode* thisNode, IntNode* newNode) {
+    IntNode* tmpNext = NULL;
 
-    scanf("%d", &arraySize);
+    tmpNext = thisNode->nextNodePtr; // Remember next
+    thisNode->nextNodePtr = newNode; // this -- new -- ?
+    newNode->nextNodePtr = tmpNext;  // this -- new -- next
+}
 
-    valsToPick = (int*) malloc(sizeof(int) * arraySize);
-    picks = (int*) malloc(sizeof(int) * arraySize);
-    inUse = (bool*) malloc(sizeof(int) * arraySize);
+// Grab location pointed by nextNodePtr
+IntNode* IntNode_GetNext(IntNode* thisNode) {
+    return thisNode->nextNodePtr;
+}
 
-    for (i = 0; i< arraySize; ++i) {
-        scanf("%d", &(valsToPick[i]));
+int IntNode_GetDataVal(IntNode* thisNode) {
+    return thisNode->dataVal;
+}
+
+int main(void) {
+    IntNode* headObj = NULL; // Create intNode objects
+    IntNode* currObj = NULL;
+    IntNode* lastObj = NULL;
+    int i;                // Loop index
+    int negativeCntr;
+
+    negativeCntr = 0;
+
+    headObj = (IntNode*)malloc(sizeof(IntNode)); // Front of nodes list
+    IntNode_Create(headObj, -1, NULL);
+    lastObj = headObj;
+
+    for (i = 0; i < 10; ++i) {              // Append 10 rand nums
+        currObj = (IntNode*)malloc(sizeof(IntNode));
+        IntNode_Create(currObj, (rand() % 21) - 10, NULL);
+        IntNode_InsertAfter(lastObj, currObj); // Append curr
+        lastObj = currObj;                  // Curr is the new last item
     }
 
-    printf("All possible ways to order an array of size %d:\n", arraySize);
+    currObj = headObj;                    // Print the list
+    while (currObj != NULL) {
+        printf("%d, ", IntNode_GetDataVal(currObj));
+        currObj = IntNode_GetNext(currObj);
+    }
+    printf("\n");
 
-    Explore(valsToPick, picks, inUse, 0, arraySize);
+    currObj = headObj;                    // Count number of negative numbers
+    while (currObj != NULL) {
 
-    free(valsToPick);
-    free(picks);
-    free(inUse);
+        // Check if the current node's data is negative
+        if (IntNode_GetDataVal(currObj) < 0) {
+            negativeCntr++;
+        }
+
+        currObj = IntNode_GetNext(currObj);
+    }
+    printf("Number of negatives: %d\n", negativeCntr);
 
     return 0;
-
 }
